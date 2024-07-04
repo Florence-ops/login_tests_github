@@ -9,15 +9,14 @@ pipeline {
             steps {
                 sh '''
                 # Ensure wget or curl is installed
-                if ! command -v curl &> /dev/null
-                then
+                if ! command -v curl &> /dev/null; then
                     apt-get update && apt-get install -y curl
                 fi
 
-                # Download and extract JDK
-                curl -L -o openjdk-11.0.2_linux-x64_bin.tar.gz https://download.java.net/java/GA/jdk11/13/GPL/openjdk-11.0.2_linux-x64_bin.tar.gz
-                tar -xzf openjdk-11.0.2_linux-x64_bin.tar.gz
-                mv jdk-11.0.2 ${JAVA_HOME}
+                # Download and extract OpenJDK 11
+                curl -L -o OpenJDK11.tar.gz https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.11+9/OpenJDK11U-jdk_x64_linux_hotspot_11.0.11_9.tar.gz
+                mkdir -p jdk-11
+                tar -xzf OpenJDK11.tar.gz -C jdk-11 --strip-components=1
                 '''
             }
         }
