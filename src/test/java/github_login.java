@@ -7,9 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-import static org.openqa.selenium.devtools.v124.page.Page.captureScreenshot;
-
-public class github_login2 {
+public class github_login {
     public static void main(String[] args) {
         WebDriver driver = new ChromeDriver();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -21,9 +19,9 @@ public class github_login2 {
         WebElement loginButton = driver.findElement(By.xpath("//*[@id=\"login\"]/div[4]/form/div/input[13]"));
 
         username.clear();
-        username.sendKeys("w.muturiflorencetest@gmail.com");
+        username.sendKeys("pearlatba@gmail.comm");
         password.clear();
-        password.sendKeys("Puckerman.1flo");
+        password.sendKeys("Tester@2024");
         loginButton.click();
 
         // Test case 2: Login with correct username and wrong password
@@ -33,9 +31,9 @@ public class github_login2 {
         loginButton = driver.findElement(By.xpath("//*[@id=\"login\"]/div[4]/form/div/input[13]"));
 
         username.clear();
-        username.sendKeys("w.muturiflorence@gmail.com");
+        username.sendKeys("pearlatba@gmail.com");
         password.clear();
-        password.sendKeys("Puckerman.2flo");
+        password.sendKeys("Tester@20245");
         loginButton.click();
 
         // Test case 3: Login with correct username and correct password
@@ -45,9 +43,9 @@ public class github_login2 {
         loginButton = driver.findElement(By.xpath("//*[@id=\"login\"]/div[4]/form/div/input[13]"));
 
         username.clear();
-        username.sendKeys("w.muturiflorence@gmail.com");
+        username.sendKeys("pearlatba@gmail.com");
         password.clear();
-        password.sendKeys("Puckerman.1flo");
+        password.sendKeys("Tester@2024");
         loginButton.click();
 
         // Close the browser
