@@ -13,6 +13,7 @@ pipeline {
             steps {
                 script {
                     // Use Maven to build the project
+                    echo $MAVEN_OPTS
                     sh 'mvn clean install'
                 }
             }
