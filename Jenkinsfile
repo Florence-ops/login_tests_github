@@ -4,6 +4,9 @@ pipeline {
         JAVA_HOME = "${WORKSPACE}/jdk-11"
         PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
     }
+    triggers {
+        githubPush()
+    }
     stages {
         stage('Setup JDK') {
             steps {
@@ -14,12 +17,6 @@ pipeline {
                 '''
             }
         }
-    }
-    triggers {
-        githubPush()
-    }
-    stages {
-        
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/Florence-ops/github_login_tests.git'
