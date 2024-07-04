@@ -11,14 +11,18 @@ pipeline {
         }
         stage('Build') {
             steps {
-                // Add your build steps here
-                echo 'Building...'
+                script {
+                    // Use Maven to build the project
+                    sh 'mvn clean install'
+                }
             }
         }
         stage('Test') {
             steps {
-                // Add your test steps here
-                echo 'Testing...'
+                script {
+                    // Use Maven to run tests
+                    sh 'mvn test'
+                }
             }
         }
         stage('Deploy') {
