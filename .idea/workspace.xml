@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="43e6c741-7ed6-4cf7-adef-4318c56022aa" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/github_login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/github_login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/credentials.properties" beforeDir="false" />
-    </list>
+    <list default="true" id="43e6c741-7ed6-4cf7-adef-4318c56022aa" name="Changes" comment="add read me file" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -75,6 +69,15 @@
       <updated>1720011551312</updated>
       <workItem from="1720011552342" duration="2000" />
     </task>
+    <task id="LOCAL-00001" summary="add read me file">
+      <option name="closed" value="true" />
+      <created>1720079367950</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1720079367950</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -90,5 +93,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add read me file" />
+    <option name="LAST_COMMIT_MESSAGE" value="add read me file" />
   </component>
 </project>
