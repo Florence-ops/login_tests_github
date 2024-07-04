@@ -1,9 +1,21 @@
 pipeline {
     agent any
+    tools {
+        maven 'Maven 3.3.9'
+        jdk 'jdk8'
+    }
     triggers {
         githubPush()
     }
     stages {
+        stage ('Initialize') {
+            steps {
+                sh '''
+                    echo "PATH = ${PATH}"
+                    echo "M2_HOME = ${M2_HOME}"
+                '''
+            }
+        }
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/Florence-ops/github_login_tests.git'
@@ -15,6 +27,7 @@ pipeline {
                     // Use Maven to build the project
                     echo $MAVEN_OPTS
                     sh 'mvn clean install'
+                    sh 'mvn -B -DskipTests clean package' 
                 }
             }
         }
