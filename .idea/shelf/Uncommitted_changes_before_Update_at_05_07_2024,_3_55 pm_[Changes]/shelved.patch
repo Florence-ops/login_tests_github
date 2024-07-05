@@ -1,0 +1,509 @@
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\n    <modelVersion>4.0.0</modelVersion>\n\n    <groupId>org.example</groupId>\n    <artifactId>github_api_automation</artifactId>\n    <version>1.0-SNAPSHOT</version>\n\n    <properties>\n        <maven.compiler.source>22</maven.compiler.source>\n        <maven.compiler.target>22</maven.compiler.target>\n        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\n    </properties>\n\n    <dependencies>\n        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->\n        <dependency>\n            <groupId>org.seleniumhq.selenium</groupId>\n            <artifactId>selenium-java</artifactId>\n            <version>4.22.0</version>\n        </dependency>\n    </dependencies>\n\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pom.xml b/pom.xml
+--- a/pom.xml	(revision 5e0567454103a8783356161f819812d39ae54abb)
++++ b/pom.xml	(date 1720181412947)
+@@ -3,24 +3,45 @@
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+-
+-    <groupId>org.example</groupId>
+-    <artifactId>github_api_automation</artifactId>
++    <groupId>com.example</groupId>
++    <artifactId>login_tests</artifactId>
+     <version>1.0-SNAPSHOT</version>
+-
+-    <properties>
+-        <maven.compiler.source>22</maven.compiler.source>
+-        <maven.compiler.target>22</maven.compiler.target>
+-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+-    </properties>
+-
+     <dependencies>
+-        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+         <dependency>
+             <groupId>org.seleniumhq.selenium</groupId>
+             <artifactId>selenium-java</artifactId>
+             <version>4.22.0</version>
++        </dependency>
++        <!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
++        <dependency>
++            <groupId>io.github.bonigarcia</groupId>
++            <artifactId>webdrivermanager</artifactId>
++            <version>5.9.1</version>
++        </dependency>
++
++        <dependency>
++            <groupId>junit</groupId>
++            <artifactId>junit</artifactId>
++            <version>4.13.2</version>
++            <scope>test</scope>
+         </dependency>
+     </dependencies>
+-
+-</project>
+\ No newline at end of file
++    <build>
++        <plugins>
++            <plugin>
++                <groupId>org.apache.maven.plugins</groupId>
++                <artifactId>maven-compiler-plugin</artifactId>
++                <version>3.13.0</version>
++                <configuration>
++                    <source>11</source>
++                    <target>11</target>
++                </configuration>
++            </plugin>
++            <plugin>
++                <groupId>org.apache.maven.plugins</groupId>
++                <artifactId>maven-surefire-plugin</artifactId>
++                <version>3.3.0</version>
++            </plugin>
++        </plugins>
++    </build>
++</project>
+Index: src/test/java/github_login.java
+===================================================================
+diff --git a/src/test/java/github_login.java b/src/test/java/github_login.java
+deleted file mode 100644
+--- a/src/test/java/github_login.java	(revision 5e0567454103a8783356161f819812d39ae54abb)
++++ /dev/null	(revision 5e0567454103a8783356161f819812d39ae54abb)
+@@ -1,102 +0,0 @@
+-import org.openqa.selenium.By;
+-import org.openqa.selenium.OutputType;
+-import org.openqa.selenium.TakesScreenshot;
+-import org.openqa.selenium.WebDriver;
+-import org.openqa.selenium.WebElement;
+-import org.openqa.selenium.chrome.ChromeDriver;
+-import org.openqa.selenium.io.FileHandler;
+-import org.openqa.selenium.support.ui.ExpectedConditions;
+-import org.openqa.selenium.support.ui.WebDriverWait;
+-
+-import java.io.File;
+-import java.io.FileInputStream;
+-import java.io.IOException;
+-import java.time.Duration;
+-import java.util.Properties;
+-
+-public class github_login {
+-    public static void main(String[] args) {
+-        // Load properties from file
+-        Properties properties = new Properties();
+-        try (FileInputStream fis = new FileInputStream("credentials.properties")) {
+-            properties.load(fis);
+-        } catch (IOException e) {
+-            e.printStackTrace();
+-            return;
+-        }
+-
+-        // Get credentials from properties file
+-        String correctUsername = properties.getProperty("username.correct");
+-        String correctPassword = properties.getProperty("password.correct");
+-        String incorrectUsername = properties.getProperty("username.incorrect");
+-        String incorrectPassword = properties.getProperty("password.incorrect");
+-
+-        WebDriver driver = new ChromeDriver();
+-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+-
+-        try {
+-            // Test case 1: Login with wrong username and correct password
+-            driver.get("https://github.com/login?return_to=https%3A%2F%2Fgithub.com%2Ftopics%2Flogin");
+-            WebElement username = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("login_field")));
+-            WebElement password = driver.findElement(By.id("password"));
+-            WebElement loginButton = driver.findElement(By.xpath("//*[@id=\"login\"]/div[4]/form/div/input[13]"));
+-
+-            username.clear();
+-            username.sendKeys(incorrectUsername);
+-            password.clear();
+-            password.sendKeys(correctPassword);
+-            loginButton.click();
+-        } catch (Exception e) {
+-            captureScreenshot(driver, "Test1_LoginWithWrongUsername");
+-            e.printStackTrace();
+-        }
+-
+-        try {
+-            // Test case 2: Login with correct username and wrong password
+-            driver.get("https://github.com/login?return_to=https%3A%2F%2Fgithub.com%2Ftopics%2Flogin");
+-            WebElement username = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("login_field")));
+-            WebElement password = driver.findElement(By.id("password"));
+-            WebElement loginButton = driver.findElement(By.xpath("//*[@id=\"login\"]/div[4]/form/div/input[13]"));
+-
+-            username.clear();
+-            username.sendKeys(correctUsername);
+-            password.clear();
+-            password.sendKeys(incorrectPassword);
+-            loginButton.click();
+-        } catch (Exception e) {
+-            captureScreenshot(driver, "Test2_LoginWithWrongPassword");
+-            e.printStackTrace();
+-        }
+-
+-        try {
+-            // Test case 3: Login with correct username and correct password
+-            driver.get("https://github.com/login?return_to=https%3A%2F%2Fgithub.com%2Ftopics%2Flogin");
+-            WebElement username = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("login_field")));
+-            WebElement password = driver.findElement(By.id("password"));
+-            WebElement loginButton = driver.findElement(By.xpath("//*[@id=\"login\"]/div[4]/form/div/input[13]"));
+-
+-            username.clear();
+-            username.sendKeys(correctUsername);
+-            password.clear();
+-            password.sendKeys(correctPassword);
+-            loginButton.click();
+-        } catch (Exception e) {
+-            captureScreenshot(driver, "Test3_LoginWithCorrectCredentials");
+-            e.printStackTrace();
+-        } finally {
+-            // Close the browser
+-            driver.quit();
+-        }
+-    }
+-
+-    private static void captureScreenshot(WebDriver driver, String screenshotName) {
+-        File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+-        try {
+-            // Ensure the path points to the 'screenshots' directory
+-            FileHandler.copy(screenshot, new File("./screenshots/" + screenshotName + ".png"));
+-        } catch (IOException e) {
+-            e.printStackTrace();
+-        }
+-    }
+-}
+-
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"43e6c741-7ed6-4cf7-adef-4318c56022aa\" name=\"Changes\" comment=\"add read me file\">\n      <change afterPath=\"$PROJECT_DIR$/credentials.properties\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/test/java/github_login.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/test/java/github_login.java\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <branch-grouping />\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\"><![CDATA[{\n  \"lastFilter\": {\n    \"state\": \"OPEN\",\n    \"assignee\": \"Florence-ops\"\n  }\n}]]></component>\n  <component name=\"GithubPullRequestsUISettings\"><![CDATA[{\n  \"selectedUrlAndAccountId\": {\n    \"url\": \"https://github.com/Florence-ops/github_login_tests.git\",\n    \"accountId\": \"59ae82c9-8f7e-4457-8f6b-bcc3348cd7ff\"\n  }\n}]]></component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 3\n}</component>\n  <component name=\"ProjectId\" id=\"2ijkohsgPlVJ5ogTUqGyEBZpWQp\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"Application.github_login.executor\": \"Run\",\n    \"Application.github_login2.executor\": \"Debug\",\n    \"Application.github_login3.executor\": \"Run\",\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"git-widget-placeholder\": \"main\",\n    \"kotlin-language-version-configured\": \"true\",\n    \"nodejs_package_manager_path\": \"npm\",\n    \"vue.rearranger.settings.migration\": \"true\"\n  }\n}]]></component>\n  <component name=\"RunManager\" selected=\"Application.github_login3\">\n    <configuration name=\"github_login\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"github_login\" />\n      <module name=\"github_api_automation\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"github_login2\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"github_login2\" />\n      <module name=\"github_api_automation\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration default=\"true\" type=\"JetRunConfigurationType\">\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration default=\"true\" type=\"KotlinStandaloneScriptRunConfigurationType\">\n      <option name=\"filePath\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <recent_temporary>\n      <list>\n        <item itemvalue=\"Application.github_login3\" />\n        <item itemvalue=\"Application.github_login2\" />\n      </list>\n    </recent_temporary>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"43e6c741-7ed6-4cf7-adef-4318c56022aa\" name=\"Changes\" comment=\"\" />\n      <created>1720011551312</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1720011551312</updated>\n      <workItem from=\"1720011552342\" duration=\"2000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"add read me file\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1720079367950</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1720079367950</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"add read me file\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1720079449937</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1720079449937</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"3\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"add read me file\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"add read me file\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 5e0567454103a8783356161f819812d39ae54abb)
++++ b/.idea/workspace.xml	(date 1720183213895)
+@@ -4,10 +4,12 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="43e6c741-7ed6-4cf7-adef-4318c56022aa" name="Changes" comment="add read me file">
+-      <change afterPath="$PROJECT_DIR$/credentials.properties" afterDir="false" />
++    <list default="true" id="43e6c741-7ed6-4cf7-adef-4318c56022aa" name="Changes" comment="Updated properties file">
++      <change afterPath="$PROJECT_DIR$/src/test/java/login_tests.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/test/java/screen_shots.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/test/java/github_login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/github_login.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/test/java/github_login.java" beforeDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -25,18 +27,24 @@
+     <branch-grouping />
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
+-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+-  "lastFilter": {
+-    "state": "OPEN",
+-    "assignee": "Florence-ops"
+-  }
+-}]]></component>
+-  <component name="GithubPullRequestsUISettings"><![CDATA[{
+-  "selectedUrlAndAccountId": {
+-    "url": "https://github.com/Florence-ops/github_login_tests.git",
+-    "accountId": "59ae82c9-8f7e-4457-8f6b-bcc3348cd7ff"
+-  }
+-}]]></component>
++  <component name="GitHubPullRequestSearchHistory">{
++  &quot;lastFilter&quot;: {
++    &quot;state&quot;: &quot;OPEN&quot;,
++    &quot;assignee&quot;: &quot;Florence-ops&quot;
++  }
++}</component>
++  <component name="GithubPullRequestsUISettings">{
++  &quot;selectedUrlAndAccountId&quot;: {
++    &quot;url&quot;: &quot;https://github.com/Florence-ops/github_login_tests.git&quot;,
++    &quot;accountId&quot;: &quot;59ae82c9-8f7e-4457-8f6b-bcc3348cd7ff&quot;
++  }
++}</component>
++  <component name="HighlightingSettingsPerFile">
++    <setting file="file://$PROJECT_DIR$/src/test/java/login_tests.java" root0="SKIP_INSPECTION" />
++  </component>
++  <component name="ProblemsViewState">
++    <option name="selectedTabId" value="CurrentFile" />
++  </component>
+   <component name="ProjectColorInfo">{
+   &quot;associatedIndex&quot;: 3
+ }</component>
+@@ -46,29 +54,77 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "Application.github_login.executor": "Run",
+-    "Application.github_login2.executor": "Debug",
+-    "Application.github_login3.executor": "Run",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "git-widget-placeholder": "main",
+-    "kotlin-language-version-configured": "true",
+-    "nodejs_package_manager_path": "npm",
+-    "vue.rearranger.settings.migration": "true"
+-  }
+-}]]></component>
+-  <component name="RunManager" selected="Application.github_login3">
+-    <configuration name="github_login" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+-      <option name="MAIN_CLASS_NAME" value="github_login" />
+-      <module name="github_api_automation" />
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;Application.github_login.executor&quot;: &quot;Run&quot;,
++    &quot;Application.github_login2.executor&quot;: &quot;Debug&quot;,
++    &quot;Application.github_login3.executor&quot;: &quot;Run&quot;,
++    &quot;JUnit.githubLogin.testLoginWithWrongUsername.executor&quot;: &quot;Run&quot;,
++    &quot;JUnit.github_login.executor&quot;: &quot;Run&quot;,
++    &quot;JUnit.github_login.testLoginWithCorrectCredentials.executor&quot;: &quot;Run&quot;,
++    &quot;JUnit.loginTests.testLoginWithWrongUsername.executor&quot;: &quot;Debug&quot;,
++    &quot;JUnit.login_tests.executor&quot;: &quot;Run&quot;,
++    &quot;JUnit.login_tests.testLoginWithWrongPassword.executor&quot;: &quot;Run&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
++    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
++    &quot;last_opened_file_path&quot;: &quot;/Users/flo/Desktop/login_tests&quot;,
++    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
++    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
++  }
++}</component>
++  <component name="QodanaReportsService">
++    <option name="descriptions">
++      <ReportDescription localRun="true" path="/private/var/folders/kw/ncq9tl5x4plfj1sr6wg12_sw0000gn/T/qodana_output/qodana.sarif.json" reportGuid="bef8e44b-0645-4784-a4fd-b4d90312d1c6" reportId="githubLogInTests Copy/qodana/2024-07-05" />
++    </option>
++  </component>
++  <component name="RunManager" selected="JUnit.login_tests">
++    <configuration name="githubLogin.testLoginWithCorrectCredentials" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++      <module name="login_tests" />
++      <option name="PACKAGE_NAME" value="" />
++      <option name="MAIN_CLASS_NAME" value="githubLogin" />
++      <option name="METHOD_NAME" value="testLoginWithCorrectCredentials" />
++      <option name="TEST_OBJECT" value="method" />
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <configuration name="githubLogin.testLoginWithWrongUsername" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++      <module name="login_tests" />
++      <option name="PACKAGE_NAME" value="" />
++      <option name="MAIN_CLASS_NAME" value="githubLogin" />
++      <option name="METHOD_NAME" value="testLoginWithWrongUsername" />
++      <option name="TEST_OBJECT" value="method" />
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <configuration name="loginTests.testLoginWithWrongUsername" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++      <module name="login_tests" />
++      <option name="PACKAGE_NAME" value="" />
++      <option name="MAIN_CLASS_NAME" value="loginTests" />
++      <option name="METHOD_NAME" value="testLoginWithWrongUsername" />
++      <option name="TEST_OBJECT" value="method" />
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <configuration name="login_tests" type="JUnit" factoryName="JUnit" singleton="false" temporary="true" nameIsGenerated="true">
++      <module name="login_tests" />
++      <option name="PACKAGE_NAME" value="" />
++      <option name="MAIN_CLASS_NAME" value="login_tests" />
++      <option name="METHOD_NAME" value="" />
++      <option name="TEST_OBJECT" value="class" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="github_login2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+-      <option name="MAIN_CLASS_NAME" value="github_login2" />
+-      <module name="github_api_automation" />
++    <configuration name="login_tests.testLoginWithWrongPassword" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++      <module name="login_tests" />
++      <option name="PACKAGE_NAME" value="" />
++      <option name="MAIN_CLASS_NAME" value="login_tests" />
++      <option name="METHOD_NAME" value="testLoginWithWrongPassword" />
++      <option name="TEST_OBJECT" value="method" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+@@ -84,10 +140,20 @@
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
++    <list>
++      <item itemvalue="JUnit.githubLogin.testLoginWithCorrectCredentials" />
++      <item itemvalue="JUnit.githubLogin.testLoginWithWrongUsername" />
++      <item itemvalue="JUnit.login_tests" />
++      <item itemvalue="JUnit.login_tests.testLoginWithWrongPassword" />
++      <item itemvalue="JUnit.loginTests.testLoginWithWrongUsername" />
++    </list>
+     <recent_temporary>
+       <list>
+-        <item itemvalue="Application.github_login3" />
+-        <item itemvalue="Application.github_login2" />
++        <item itemvalue="JUnit.login_tests" />
++        <item itemvalue="JUnit.login_tests.testLoginWithWrongPassword" />
++        <item itemvalue="JUnit.loginTests.testLoginWithWrongUsername" />
++        <item itemvalue="JUnit.githubLogin.testLoginWithWrongUsername" />
++        <item itemvalue="JUnit.githubLogin.testLoginWithCorrectCredentials" />
+       </list>
+     </recent_temporary>
+   </component>
+@@ -117,7 +183,15 @@
+       <option name="project" value="LOCAL" />
+       <updated>1720079449937</updated>
+     </task>
+-    <option name="localTasksCounter" value="3" />
++    <task id="LOCAL-00003" summary="Updated properties file">
++      <option name="closed" value="true" />
++      <created>1720088962355</created>
++      <option name="number" value="00003" />
++      <option name="presentableId" value="LOCAL-00003" />
++      <option name="project" value="LOCAL" />
++      <updated>1720088962355</updated>
++    </task>
++    <option name="localTasksCounter" value="4" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -136,6 +210,7 @@
+   </component>
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="add read me file" />
+-    <option name="LAST_COMMIT_MESSAGE" value="add read me file" />
++    <MESSAGE value="Updated properties file" />
++    <option name="LAST_COMMIT_MESSAGE" value="Updated properties file" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: src/test/java/login_tests.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/login_tests.java b/src/test/java/login_tests.java
+new file mode 100644
+--- /dev/null	(date 1720183729142)
++++ b/src/test/java/login_tests.java	(date 1720183729142)
+@@ -0,0 +1,110 @@
++import org.apache.commons.io.FileUtils;
++import org.junit.*;
++import org.junit.rules.TestWatcher;
++import org.junit.runner.Description;
++import org.openqa.selenium.*;
++import org.openqa.selenium.chrome.ChromeDriver;
++import org.openqa.selenium.support.ui.ExpectedConditions;
++import org.openqa.selenium.support.ui.WebDriverWait;
++
++import java.io.File;
++import java.io.FileInputStream;
++import java.io.IOException;
++import java.time.Duration;
++import java.util.Properties;
++
++import static org.junit.Assert.assertTrue;
++
++public class login_tests {
++    private static WebDriver driver;
++    private static WebDriverWait wait;
++    private static Properties properties;
++
++    @BeforeClass
++    public static void setUp() throws IOException {
++        properties = new Properties();
++        try (FileInputStream fis = new FileInputStream("credentials.properties")) {
++            properties.load(fis);
++        }
++        driver = new ChromeDriver();
++        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
++    }
++
++    @Rule
++    public TestWatcher testWatcher = new TestWatcher() {
++        @Override
++        protected void failed(Throwable e, Description description) {
++            captureScreenshot(description.getMethodName());
++        }
++    };
++
++    private void captureScreenshot(String screenshotName) {
++        File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
++        try {
++            File destFile = new File("./screenshots/" + screenshotName + ".png");
++            FileUtils.copyFile(screenshot, destFile);
++        } catch (IOException e) {
++            e.printStackTrace();
++        }
++    }
++
++    // Test case 1: Login with wrong username and correct password
++    @Test
++    public void testLoginWithWrongUsername() {
++        driver.get("https://github.com/login?return_to=https%3A%2F%2Fgithub.com%2Ftopics%2Flogin");
++        WebElement username = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("login_field")));
++        WebElement password = driver.findElement(By.id("password"));
++        WebElement loginButton = driver.findElement(By.xpath("//*[@id=\"login\"]/div[4]/form/div/input[13]"));
++
++        username.clear();
++        username.sendKeys(properties.getProperty("username.incorrect"));
++        password.clear();
++        password.sendKeys(properties.getProperty("password.correct"));
++        loginButton.click();
++
++        WebElement errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".flash-error")));
++        assertTrue(errorMessage.isDisplayed());
++    }
++
++    // Test case 2: Login with correct username and wrong password
++    @Test
++    public void testLoginWithWrongPassword() {
++        driver.get("https://github.com/login?return_to=https%3A%2F%2Fgithub.com%2Ftopics%2Flogin");
++        WebElement username = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("login_field")));
++        WebElement password = driver.findElement(By.id("password"));
++        WebElement loginButton = driver.findElement(By.xpath("//*[@id=\"login\"]/div[4]/form/div/input[13]"));
++
++        username.clear();
++        username.sendKeys(properties.getProperty("username.correct"));
++        password.clear();
++        password.sendKeys(properties.getProperty("password.incorrect"));
++        loginButton.click();
++
++        WebElement errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".flash-error")));
++        assertTrue(errorMessage.isDisplayed());
++    }
++
++    // Test case 3: Login with correct username and correct password
++    @Test
++    public void testLoginWithCorrectCredentials() {
++        driver.get("https://github.com/login?return_to=https%3A%2F%2Fgithub.com%2Ftopics%2Flogin");
++        WebElement username = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("login_field")));
++        WebElement password = driver.findElement(By.id("password"));
++        WebElement loginButton = driver.findElement(By.xpath("//*[@id=\"login\"]/div[4]/form/div/input[13]"));
++
++        username.clear();
++        username.sendKeys(properties.getProperty("username.correct"));
++        password.clear();
++        password.sendKeys(properties.getProperty("password.correct"));
++        loginButton.click();
++
++        assertTrue(driver.getTitle().contains("GitHub"));
++    }
++
++    @AfterClass
++    public static void tearDown() {
++        if (driver != null) {
++            driver.quit();
++        }
++    }
++}
