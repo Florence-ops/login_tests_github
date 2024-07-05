@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="43e6c741-7ed6-4cf7-adef-4318c56022aa" name="Changes" comment="Updated properties file">
-      <change afterPath="$PROJECT_DIR$/src/test/java/login_tests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/screen_shots.java" afterDir="false" />
+    <list default="true" id="43e6c741-7ed6-4cf7-adef-4318c56022aa" name="Changes" comment="add read me file">
+      <change afterPath="$PROJECT_DIR$/credentials.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/github_login.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/github_login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/github_login.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,24 +25,18 @@
     <branch-grouping />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;Florence-ops&quot;
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Florence-ops"
   }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Florence-ops/github_login_tests.git&quot;,
-    &quot;accountId&quot;: &quot;59ae82c9-8f7e-4457-8f6b-bcc3348cd7ff&quot;
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Florence-ops/github_login_tests.git",
+    "accountId": "59ae82c9-8f7e-4457-8f6b-bcc3348cd7ff"
   }
-}</component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/test/java/login_tests.java" root0="SKIP_INSPECTION" />
-  </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
-  </component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -54,77 +46,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.github_login.executor&quot;: &quot;Run&quot;,
-    &quot;Application.github_login2.executor&quot;: &quot;Debug&quot;,
-    &quot;Application.github_login3.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.githubLogin.testLoginWithWrongUsername.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.github_login.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.github_login.testLoginWithCorrectCredentials.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.loginTests.testLoginWithWrongUsername.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.login_tests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.login_tests.testLoginWithWrongPassword.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/flo/Desktop/login_tests&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.github_login.executor": "Run",
+    "Application.github_login2.executor": "Debug",
+    "Application.github_login3.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="QodanaReportsService">
-    <option name="descriptions">
-      <ReportDescription localRun="true" path="/private/var/folders/kw/ncq9tl5x4plfj1sr6wg12_sw0000gn/T/qodana_output/qodana.sarif.json" reportGuid="bef8e44b-0645-4784-a4fd-b4d90312d1c6" reportId="githubLogInTests Copy/qodana/2024-07-05" />
-    </option>
-  </component>
-  <component name="RunManager" selected="JUnit.login_tests">
-    <configuration name="githubLogin.testLoginWithCorrectCredentials" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="login_tests" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="githubLogin" />
-      <option name="METHOD_NAME" value="testLoginWithCorrectCredentials" />
-      <option name="TEST_OBJECT" value="method" />
+}]]></component>
+  <component name="RunManager" selected="Application.github_login3">
+    <configuration name="github_login" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="github_login" />
+      <module name="github_api_automation" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="githubLogin.testLoginWithWrongUsername" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="login_tests" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="githubLogin" />
-      <option name="METHOD_NAME" value="testLoginWithWrongUsername" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="loginTests.testLoginWithWrongUsername" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="login_tests" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="loginTests" />
-      <option name="METHOD_NAME" value="testLoginWithWrongUsername" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="login_tests" type="JUnit" factoryName="JUnit" singleton="false" temporary="true" nameIsGenerated="true">
-      <module name="login_tests" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="login_tests" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="login_tests.testLoginWithWrongPassword" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="login_tests" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="login_tests" />
-      <option name="METHOD_NAME" value="testLoginWithWrongPassword" />
-      <option name="TEST_OBJECT" value="method" />
+    <configuration name="github_login2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="github_login2" />
+      <module name="github_api_automation" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -140,20 +84,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <list>
-      <item itemvalue="JUnit.githubLogin.testLoginWithCorrectCredentials" />
-      <item itemvalue="JUnit.githubLogin.testLoginWithWrongUsername" />
-      <item itemvalue="JUnit.login_tests" />
-      <item itemvalue="JUnit.login_tests.testLoginWithWrongPassword" />
-      <item itemvalue="JUnit.loginTests.testLoginWithWrongUsername" />
-    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.login_tests" />
-        <item itemvalue="JUnit.login_tests.testLoginWithWrongPassword" />
-        <item itemvalue="JUnit.loginTests.testLoginWithWrongUsername" />
-        <item itemvalue="JUnit.githubLogin.testLoginWithWrongUsername" />
-        <item itemvalue="JUnit.githubLogin.testLoginWithCorrectCredentials" />
+        <item itemvalue="Application.github_login3" />
+        <item itemvalue="Application.github_login2" />
       </list>
     </recent_temporary>
   </component>
@@ -183,15 +117,7 @@
       <option name="project" value="LOCAL" />
       <updated>1720079449937</updated>
     </task>
-    <task id="LOCAL-00003" summary="Updated properties file">
-      <option name="closed" value="true" />
-      <created>1720088962355</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1720088962355</updated>
-    </task>
-    <option name="localTasksCounter" value="4" />
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -210,7 +136,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add read me file" />
-    <MESSAGE value="Updated properties file" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated properties file" />
+    <option name="LAST_COMMIT_MESSAGE" value="add read me file" />
   </component>
 </project>
