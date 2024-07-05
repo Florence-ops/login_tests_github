@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.Properties;
 
-public class github_login {
+public class login_tests_github {
     public static void main(String[] args) {
         // Load properties from file
         Properties properties = new Properties();
