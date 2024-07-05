@@ -1,102 +1,129 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.apache.commons.io.FileUtils;
+import org.junit.*;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
+import org.junit.runner.notification.Failure;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.time.Duration;
 import java.util.Properties;
 
+import static org.junit.Assert.assertTrue;
+
 public class login_tests_github {
-    public static void main(String[] args) {
-        // Load properties from file
-        Properties properties = new Properties();
+    private static WebDriver driver;
+    private static WebDriverWait wait;
+    private static Properties properties;
+
+    @BeforeClass
+    public static void setUp() throws IOException {
+        properties = new Properties();
         try (FileInputStream fis = new FileInputStream("credentials.properties")) {
             properties.load(fis);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
         }
 
-        // Get credentials from properties file
-        String correctUsername = properties.getProperty("username.correct");
-        String correctPassword = properties.getProperty("password.correct");
-        String incorrectUsername = properties.getProperty("username.incorrect");
-        String incorrectPassword = properties.getProperty("password.incorrect");
+        // Use WebDriverManager to set up ChromeDriver
+        WebDriverManager.chromedriver().setup();
 
-        WebDriver driver = new ChromeDriver();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        driver = new ChromeDriver();
+        wait = new WebDriverWait(driver, 10);
+    }
 
-        try {
-            // Test case 1: Login with wrong username and correct password
-            driver.get("https://github.com/login?return_to=https%3A%2F%2Fgithub.com%2Ftopics%2Flogin");
-            WebElement username = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("login_field")));
-            WebElement password = driver.findElement(By.id("password"));
-            WebElement loginButton = driver.findElement(By.xpath("//*[@id=\"login\"]/div[4]/form/div/input[13]"));
-
-            username.clear();
-            username.sendKeys(incorrectUsername);
-            password.clear();
-            password.sendKeys(correctPassword);
-            loginButton.click();
-        } catch (Exception e) {
-            captureScreenshot(driver, "Test1_LoginWithWrongUsername");
-            e.printStackTrace();
+    @Rule
+    public TestWatcher testWatcher = new TestWatcher() {
+        @Override
+        protected void failed(Throwable e, Description description) {
+            captureScreenshot(description.getMethodName());
         }
+    };
 
+    private void captureScreenshot(String screenshotName) {
+        File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         try {
-            // Test case 2: Login with correct username and wrong password
-            driver.get("https://github.com/login?return_to=https%3A%2F%2Fgithub.com%2Ftopics%2Flogin");
-            WebElement username = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("login_field")));
-            WebElement password = driver.findElement(By.id("password"));
-            WebElement loginButton = driver.findElement(By.xpath("//*[@id=\"login\"]/div[4]/form/div/input[13]"));
-
-            username.clear();
-            username.sendKeys(correctUsername);
-            password.clear();
-            password.sendKeys(incorrectPassword);
-            loginButton.click();
-        } catch (Exception e) {
-            captureScreenshot(driver, "Test2_LoginWithWrongPassword");
-            e.printStackTrace();
+            File destFile = new File("./screenshots/" + screenshotName + ".png");
+            FileUtils.copyFile(screenshot, destFile);
+            System.out.println("Screenshot captured: " + destFile.getAbsolutePath());
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
+    }
 
-        try {
-            // Test case 3: Login with correct username and correct password
-            driver.get("https://github.com/login?return_to=https%3A%2F%2Fgithub.com%2Ftopics%2Flogin");
-            WebElement username = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("login_field")));
-            WebElement password = driver.findElement(By.id("password"));
-            WebElement loginButton = driver.findElement(By.xpath("//*[@id=\"login\"]/div[4]/form/div/input[13]"));
+    // Test case 1: Login with wrong username and correct password
+    @Test
+    public void testLoginWithWrongUsername() {
+        driver.get("https://github.com/login?return_to=https%3A%2F%2Fgithub.com%2Ftopics%2Flogin");
+        WebElement username = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("login_field")));
+        WebElement password = driver.findElement(By.id("password"));
+        WebElement loginButton = driver.findElement(By.xpath("//*[@id=\"login\"]/div[4]/form/div/input[13]"));
 
-            username.clear();
-            username.sendKeys(correctUsername);
-            password.clear();
-            password.sendKeys(correctPassword);
-            loginButton.click();
-        } catch (Exception e) {
-            captureScreenshot(driver, "Test3_LoginWithCorrectCredentials");
-            e.printStackTrace();
-        } finally {
-            // Close the browser
+        username.clear();
+        username.sendKeys(properties.getProperty("username.incorrect"));
+        password.clear();
+        password.sendKeys(properties.getProperty("password.correct"));
+        loginButton.click();
+
+        WebElement errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".flash-error")));
+        assertTrue(errorMessage.isDisplayed());
+    }
+
+    // Test case 2: Login with correct username and wrong password
+    @Test
+    public void testLoginWithWrongPassword() {
+        driver.get("https://github.com/login?return_to=https%3A%2F%2Fgithub.com%2Ftopics%2Flogin");
+        WebElement username = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("login_field")));
+        WebElement password = driver.findElement(By.id("password"));
+        WebElement loginButton = driver.findElement(By.xpath("//*[@id=\"login\"]/div[4]/form/div/input[13]"));
+
+        username.clear();
+        username.sendKeys(properties.getProperty("username.correct"));
+        password.clear();
+        password.sendKeys(properties.getProperty("password.incorrect"));
+        loginButton.click();
+
+        WebElement errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".flash-error")));
+        wait.until(ExpectedConditions.textToBePresentInElement(errorMessage, "Incorrect username or password."));
+        assertTrue(errorMessage.isDisplayed());
+    }
+
+    // Test case 3: Login with correct username and correct password
+    @Test
+    public void testLoginWithCorrectCredentials() {
+        driver.get("https://github.com/login?return_to=https%3A%2F%2Fgithub.com%2Ftopics%2Flogin");
+        WebElement username = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("login_field")));
+        WebElement password = driver.findElement(By.id("password"));
+        WebElement loginButton = driver.findElement(By.xpath("//*[@id=\"login\"]/div[4]/form/div/input[13]"));
+
+        username.clear();
+        username.sendKeys(properties.getProperty("username.correct"));
+        password.clear();
+        password.sendKeys(properties.getProperty("password.correct"));
+        loginButton.click();
+
+        wait.until(ExpectedConditions.titleContains("GitHub"));
+        assertTrue(driver.getTitle().contains("GitHub"));
+    }
+
+    @AfterClass
+    public static void tearDown() {
+        if (driver != null) {
             driver.quit();
         }
     }
 
-    private static void captureScreenshot(WebDriver driver, String screenshotName) {
-        File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        try {
-            // Ensure the path points to the 'screenshots' directory
-            FileHandler.copy(screenshot, new File("./screenshots/" + screenshotName + ".png"));
-        } catch (IOException e) {
-            e.printStackTrace();
+    // Main method to run the tests
+    public static void main(String[] args) {
+        Result result = JUnitCore.runClasses(login_tests_github.class);
+        for (Failure failure : result.getFailures()) {
+            System.out.println(failure.toString());
         }
+        System.out.println(result.wasSuccessful());
     }
 }
-
