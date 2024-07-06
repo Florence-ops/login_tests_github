@@ -52,5 +52,3 @@ Copy code
 ````
 ## Run The Test
 Run the "github_login" class as a Java application.
-
-
