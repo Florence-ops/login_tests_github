@@ -23,16 +23,6 @@ pipeline {
                 sh 'mvn test'
             }
         }
-        stage('Report') {
-            steps {
-                junit '**/target/test-classes/*.xml'
-            }
-        }
-    }
-    post {
-        always {
-            archiveArtifacts artifacts: '**/target/*.jar', allowEmptyArchive: true
-        }
     }
 }
 
