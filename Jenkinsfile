@@ -25,7 +25,8 @@ pipeline {
         }
         stage('Report') {
             steps {
-                junit '**/target/*.xml'
+                sh 'ls -R target' // Verify the directory structure
+                junit '**/target/surefire-reports/*.xml'
             }
         }
     }
