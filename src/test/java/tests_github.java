@@ -18,7 +18,7 @@ import java.util.Properties;
 
 import static org.junit.Assert.assertTrue;
 
-public class login_tests_githubb {
+public class login_tests_github {
     private static WebDriver driver;
     private static WebDriverWait wait;
     private static Properties properties;
