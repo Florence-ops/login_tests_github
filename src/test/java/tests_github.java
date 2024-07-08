@@ -120,7 +120,7 @@ public class tests_github {
 
     // Main method to run the tests
     public static void main(String[] args) {
-        Result result = JUnitCore.runClasses(login_tests_github.class);
+        Result result = JUnitCore.runClasses(tests_github.class);
         for (Failure failure : result.getFailures()) {
             System.out.println(failure.toString());
         }
