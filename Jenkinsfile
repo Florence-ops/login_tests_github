@@ -23,11 +23,22 @@ pipeline {
                 sh 'mvn test'
             }
         }
+        stage('Verify Report Generation') {
+            steps {
+                // List the directory structure to verify the location of test report files
+                sh 'ls -R target'
+                sh 'cat target/surefire-reports/*' // Optional: Print contents of report files to verify
+            }
+        }
         stage('Report') {
             steps {
-                sh 'ls -R target' // Verify the directory structure
                 junit '**/target/surefire-reports/*.xml'
             }
+        }
+    }
+    post {
+        always {
+            archiveArtifacts artifacts: '**/target/*.jar', allowEmptyArchive: true
         }
     }
 }
