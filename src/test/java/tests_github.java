@@ -31,7 +31,7 @@ public class tests_github {
             driver.quit();
         }
     }
-
+    //test for login with wrong username and a correct password
     @Test
     public void testLoginWithWrongUsername() {
         driver.get("https://github.com/login");
@@ -48,6 +48,7 @@ public class tests_github {
         Assert.assertTrue(errorMessage.isDisplayed());
     }
 
+     //test for login with correct username and a wrong password
     @Test
     public void testLoginWithWrongPassword() {
         driver.get("https://github.com/login");
@@ -64,6 +65,7 @@ public class tests_github {
         Assert.assertTrue(errorMessage.isDisplayed());
     }
 
+     //test for login with correct username and a correct password
     @Test
     public void testLoginWithCorrectCredentials() {
         driver.get("https://github.com/login");
@@ -77,5 +79,7 @@ public class tests_github {
         loginButton.click();
 
         // Add your assertions here for successful login
+        WebElement userAvatar = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div[1]/header/div/div[1]/a/svg")));
+        Assert.assertTrue(userAvatar.isDisplayed());
     }
 }
